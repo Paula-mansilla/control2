@@ -1,0 +1,21 @@
+.seccion-1 {
+    width: 25rem;
+    height: 10rem;
+    border: 2px solid lightgray;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: -2.5rem;
+
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+.monto-total {
+    font-size: 1.6rem;
+    color: darkgreen;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

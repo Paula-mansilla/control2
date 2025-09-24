@@ -1,5 +1,5 @@
 export function descarga() {
-    const div = document.body; // 👈 captura todo el body
+    const div = document.body; 
     window.html2canvas(div).then(canvas => {
         const enlace = document.createElement("a");
         enlace.href = canvas.toDataURL("image/png");

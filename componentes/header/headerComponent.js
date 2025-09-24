@@ -1,4 +1,4 @@
-import { descarga } from "../../control/descargar";
+import { descarga } from "../../control/descargar.js";
 export function crearHeader() {
     let contenedor = document.createElement('header');
     contenedor.className = "header";
@@ -18,7 +18,7 @@ export function crearHeader() {
     descarga("miContenedor"); 
     });
 
-    logoBox.appendChild(img);
+    logoBox.appendChild(div);
 
     contenedor.appendChild(titulo);
     contenedor.appendChild(logoBox);

@@ -1,7 +1,7 @@
 export function crearSeccion1() {
     let seccion = document.createElement('section');
     seccion.className = "seccion-1";
-    seccion1.id = "miContenedor";
+    seccion.id = "miContenedor";
 
     let monto = document.createElement('h2');
     monto.className = "monto-total";

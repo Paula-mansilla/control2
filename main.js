@@ -32,6 +32,6 @@ function seccion() {
 }
 
 
-// 🔹 Aquí apuntamos al root
+//root
 const root = document.querySelector('#root');
 root.appendChild(seccion());

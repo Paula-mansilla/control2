@@ -1,17 +1,19 @@
-const CARRITO = 'carrito';
+const KEY_STORAGE = "miCarrito";
 
-function guardarCarrito(lista) {
-    localStorage.setItem(CARRITO, JSON.stringify(lista));
+// Guardar lista completa
+export function setLista(productos) {
+  localStorage.setItem(KEY_STORAGE, JSON.stringify(productos));
 }
 
-function cargarCarrito() {
-    return JSON.parse(localStorage.getItem(CARRITO)) || [];
+// Obtener lista completa
+export function getLista() {
+  const data = localStorage.getItem(KEY_STORAGE);
+  return data ? JSON.parse(data) : [];
 }
 
-function agregarProductos(nombre, precio) {
-    let productos = cargarCarrito();
-    productos.push({ nombre, precio });
-    guardarCarrito(productos);
+// Añadir un solo producto
+export function addProducto(nombre, precio) {
+  const lista = getLista();
+  lista.push({ nombre, precio });
+  setLista(lista);
 }
-
-export { agregarProductos, guardarCarrito, cargarCarrito };

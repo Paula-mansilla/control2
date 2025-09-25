@@ -1,74 +1,87 @@
-import { cargarCarrito, guardarCarrito } from "../../control/miLocalStorange.js";
+import { getLista, setLista } from "../../control/miLocalStorange.js";
 
-export function crearFormulario() {
-    let form = document.createElement('form');
-    form.className = "formulario";
+export function crearFormularioCompras(seccion) {
+  const form = document.createElement("form");
+  form.className = "mi-formulario";
 
-    let campoProducto = document.createElement('input');
-    campoProducto.className = "campo-producto";
-    campoProducto.type = "text";
-    campoProducto.placeholder = "Escribe un producto";
-    form.appendChild(campoProducto);
+  // Campo producto
+  const campoNombre = document.createElement("input");
+  campoNombre.type = "text";
+  campoNombre.placeholder = "Nombre del producto";
+  campoNombre.className = "input-nombre";
+  form.appendChild(campoNombre);
 
-    let campoPrecio = document.createElement('input');
-    campoPrecio.className = "campo-precio";
-    campoPrecio.type = "number";
-    campoPrecio.placeholder = "Q 0.00";
-    form.appendChild(campoPrecio);
+  // Campo precio
+  const campoPrecio = document.createElement("input");
+  campoPrecio.type = "number";
+  campoPrecio.placeholder = "Precio Q.00";
+  campoPrecio.className = "input-precio";
+  form.appendChild(campoPrecio);
 
-    let btnAgregar = document.createElement('button');
-    btnAgregar.className = "btn-agregar";
-    btnAgregar.textContent = "Agregar";
-    form.appendChild(btnAgregar);
+  // Botón agregar
+  const btnAgregar = document.createElement("button");
+  btnAgregar.type = "submit";
+  btnAgregar.textContent = "Agregar";
+  btnAgregar.className = "btn-agregar";
+  form.appendChild(btnAgregar);
 
-    let lista = document.createElement("ul");
-    lista.className = "lista-productos";
-    form.appendChild(lista);
+  // Referencias a la sección principal
+  const totalElem = seccion.querySelector(".total-texto");
+  const listaElem = seccion.querySelector(".productos-lista");
 
-    //boton agregar
-    btnAgregar.addEventListener('click', (e) => {
-        e.preventDefault();
-
-    let nombre = campoProducto.value.trim();
-    let precio = parseFloat(campoPrecio.value);
-        if (nombre && !isNaN(precio) && precio > 0) {
-            
-         let item = document.createElement('li');
-        item.className = "item-producto";
-        item.textContent = `${nombre} — Q${precio.toFixed(2)}`;
-
-
-  
-     // Botón eliminar
-    let btnEliminar = document.createElement("button");
-    btnEliminar.className = "btn-eliminar";
-    btnEliminar.innerText = "❌";
-    btnEliminar.style.marginLeft = "10px";
-    item.appendChild(btnEliminar);
-
-    lista.appendChild(item);
-
-    // Guardar en localStorage
-    let carrito = cargarCarrito();
-    carrito.push({ nombre, precio });
-    guardarCarrito(carrito);
-
-    // Limpiar inputs
-    campoProducto.value = "";
-    campoPrecio.value = "";
-
-    // Evento eliminar
-    btnEliminar.addEventListener("click", () => {
-      lista.removeChild(item);
-
-    let carritoActualizado = cargarCarrito().filter(
-    p => !(p.nombre === nombre && p.precio === precio)
-    );
-    guardarCarrito(carritoActualizado);
-     });
+  // 🔄 Actualizar total
+  function actualizarTotal() {
+    const productos = getLista() || [];
+    const suma = productos.reduce((acc, p) => acc + p.precio, 0);
+    totalElem.textContent = `Q ${suma.toFixed(2)}`;
   }
-    
-});
 
-    return form;
+  // 📝 Mostrar los productos guardados
+  (getLista() || []).forEach(prod => {
+    agregarItem(prod.nombre, prod.precio);
+  });
+  actualizarTotal();
+
+  // ⚡ Función para crear un <li>
+  function agregarItem(nombre, precio) {
+    const item = document.createElement("li");
+    item.className = "producto-item";
+    item.innerHTML = `
+      ${nombre} - Q ${precio.toFixed(2)} 
+      <span class="btn-eliminar">❌</span>
+    `;
+
+    item.querySelector(".btn-eliminar").addEventListener("click", () => {
+      item.remove();
+      let productos = getLista();
+      productos = productos.filter(p => !(p.nombre === nombre && p.precio === precio));
+      setLista(productos);
+      actualizarTotal();
+    });
+
+    listaElem.appendChild(item);
+  }
+
+  // Evento submit
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nombre = campoNombre.value.trim();
+    const precio = parseFloat(campoPrecio.value);
+
+    if (nombre && !isNaN(precio) && precio > 0) {
+      agregarItem(nombre, precio);
+
+      const productos = getLista() || [];
+      productos.push({ nombre, precio });
+      setLista(productos);
+
+      actualizarTotal();
+      campoNombre.value = "";
+      campoPrecio.value = "";
+    } else {
+      alert("Debes ingresar un producto válido con precio.");
+    }
+  });
+
+  return form;
 }

@@ -1,13 +1,19 @@
-export function crearSeccion1() {
-    let seccion = document.createElement('section');
-    seccion.className = "seccion-1";
-    seccion.id = "miContenedor";
+export function crearSeccionPrincipal() {
+  const seccion = document.createElement("section");
+  seccion.className = "seccion-principal";
+  seccion.id = "miContenedor"; // importante para la descarga
 
-    let monto = document.createElement('h2');
-    monto.className = "monto-total";
-    monto.textContent = "Q 0.00";
+  // Mostrar total
+  const total = document.createElement("h2");
+  total.className = "total-texto";
+  total.textContent = "Q 0.00";
 
-    seccion.appendChild(monto);
+  // Lista de productos
+  const listaProductos = document.createElement("ul");
+  listaProductos.className = "productos-lista";
 
-    return seccion;
+  seccion.appendChild(total);
+  seccion.appendChild(listaProductos);
+
+  return seccion;
 }

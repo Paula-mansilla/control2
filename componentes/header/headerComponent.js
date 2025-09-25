@@ -1,27 +1,24 @@
 import { descarga } from "../../control/descargar.js";
+
 export function crearHeader() {
-    let contenedor = document.createElement('header');
-    contenedor.className = "header";
+  const header = document.createElement("header");
+  header.className = "mi-header";
 
-    let titulo = document.createElement('h1');
-    titulo.className = "titulo";
-    titulo.textContent = "Mi Lista de Compras";
+  const titulo = document.createElement("h2");
+  titulo.textContent = "Mi Lista de Compras";
+  titulo.className = "mi-titulo";
 
-    let logoBox = document.createElement('div');
-    logoBox.className = "logo-box";
+  const botonDescarga = document.createElement("span");
+  botonDescarga.textContent = "⬇️";
+  botonDescarga.className = "mi-boton-descarga";
+  botonDescarga.style.cursor = "pointer";
 
-    let div = document.createElement('div'); 
-    div.className = "descargarlogo"; 
-    div.innerHTML = "⬇️ "; 
-    div.style.cursor = "pointer";
-    div.addEventListener("click", () => {
-    descarga("miContenedor"); 
-    });
+  botonDescarga.addEventListener("click", () => {
+    descarga("miContenedor");
+  });
 
-    logoBox.appendChild(div);
+  header.appendChild(titulo);
+  header.appendChild(botonDescarga);
 
-    contenedor.appendChild(titulo);
-    contenedor.appendChild(logoBox);
-
-    return contenedor;
+  return header;
 }
